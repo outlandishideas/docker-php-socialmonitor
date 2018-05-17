@@ -1,7 +1,7 @@
 FROM php:5-fpm-alpine
 
 RUN apk update \
-    && apk add icu-dev zlib-dev \
+    && apk add icu-dev zlib-dev graphviz git openssh \
     && docker-php-ext-install mysqli pdo pdo_mysql intl zip mbstring iconv
 
 RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
@@ -19,10 +19,6 @@ RUN curl -OL https://github.com/phpmetrics/PhpMetrics/releases/download/v2.3.2/p
 RUN curl -OL http://www.phpdoc.org/phpDocumentor.phar && \
     chmod +x phpDocumentor.phar && \
     mv phpDocumentor.phar /usr/local/bin/phpdoc
-
-RUN set -ex \
-  && apk --no-cache add \
-    git
 
 RUN apk update \
     && apk add autoconf g++ make \
@@ -45,5 +41,3 @@ ENV PATH "$PATH:/var/www/html/vendor/bin"
 
 RUN echo "env[\"XDEBUG_CONFIG\"] = \$XDEBUG_CONFIG" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
-RUN apk update \
-        && apk add openssh
