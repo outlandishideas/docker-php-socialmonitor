@@ -1,4 +1,4 @@
-FROM php:5-fpm-alpine
+FROM php:7.1-fpm-alpine
 
 RUN apk update \
     && apk add icu-dev zlib-dev graphviz git openssh \
@@ -12,7 +12,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php -r "unlink('composer-setup.php');"
 
-RUN curl -OL https://github.com/phpmetrics/PhpMetrics/releases/download/v2.3.2/phpmetrics.phar && \
+RUN curl -OL https://github.com/phpmetrics/PhpMetrics/releases/download/v2.4.1/phpmetrics.phar && \
     chmod +x phpmetrics.phar && \
     mv phpmetrics.phar /usr/local/bin/phpmetrics
 
@@ -40,4 +40,3 @@ RUN echo "date.timezone=Europe/London" > /usr/local/etc/php/conf.d/zz-custom.ini
 ENV PATH "$PATH:/var/www/html/vendor/bin"
 
 RUN echo "env[\"XDEBUG_CONFIG\"] = \$XDEBUG_CONFIG" >> /usr/local/etc/php-fpm.d/zz-docker.conf
-
